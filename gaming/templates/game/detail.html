@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Py Game Collection</title>
+  </head>
+  <body>
+    <h2>Game Details</h2>
+
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>{{ game.name }}</td>
+        </tr>
+        <tr>
+            <td>Gamesystems:</td>
+            <td>
+                {% for gamesystem in game.gamesystems.all %}
+                    {{ gamesystem.name }}<br/>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Played:</td>
+            <td>{{ game.played }}</td>
+        </tr>
+        <tr>
+            <td>Finished:</td>
+            <td>{{ game.finished }}</td>
+        </tr>
+        <tr>
+            <td>Inserted into collection</td>
+            <td>{{ game.pub_date }}</td>
+        </tr>
+    </table>
+</body>
+</html>

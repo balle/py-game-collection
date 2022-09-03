@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Py Game Collection</title>
+  </head>
+  <body>
+    <h2>Gamesystem Details for {{ gamesystem.name }}</h2>
+
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Name</th>
+            <th>Played</th>
+            <th>Finished</th>            
+        </tr>
+
+        {% for game in games %}
+        <tr>
+            <td><a href="{% url 'detail' game.id %}">View</a></td>
+            <td>{{ game.name }}</td>
+            <td>{{ game.played }}</td>
+            <td>{{ game.finished }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

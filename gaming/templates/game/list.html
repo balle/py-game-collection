@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Py Game Collection</title>
+  </head>
+  <body>
+    <h2>Games</h2>
+    <!--
+    <nav><a>Link1|</a><a>Link2</a></nav>
+    -->
+
+    <p>
+        <form action="{% url "search" %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="search_string"/>
+            <input type="submit" value="Search"/>
+        </form>
+    </p>
+
+    {% if not games %}
+    <p>No games matched the search string.</p>
+    {% else %}
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Name</th>
+            <th>Gamesystems</td>
+            <th>Played</th>
+            <th>Finished</th>            
+        </tr>
+      {% for game in games %}
+        <tr>
+            <td><a href="{% url 'detail' game.id %}">View</a></td>
+            <td>{{ game.name }}</td>
+            <td>
+                {% for gamesystem in game.gamesystems.all %}
+                    <a href="{% url 'gamesystem' gamesystem.id %}">{{ gamesystem.name }}</a><br/>
+                {% endfor %}
+            </td>
+            <td>{{ game.played }}</td>
+            <td>{{ game.finished }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+<!--
+    <footer>Dies ist die Fussnote</footer>
+-->
+  </body>
+</html>
