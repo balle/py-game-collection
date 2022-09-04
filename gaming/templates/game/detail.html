@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Py Game Collection</title>
-  </head>
-  <body>
-    <h2>Game Details</h2>
+{% extends "base.html" %}
 
+{% block header %}
+Game Details
+{% endblock %}
+
+{% block content %}
     <table>
         <tr>
             <td>Name:</td>
@@ -32,5 +31,4 @@
             <td>{{ game.pub_date }}</td>
         </tr>
     </table>
-</body>
-</html>
+{% endblock %}

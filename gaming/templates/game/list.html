@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Py Game Collection</title>
-  </head>
-  <body>
-    <h2>Games</h2>
-    <!--
-    <nav><a>Link1|</a><a>Link2</a></nav>
-    -->
+{% extends "base.html" %}
+{% load static %}
 
-    <p>
-        <form action="{% url "search" %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="search_string"/>
-            <input type="submit" value="Search"/>
-        </form>
-    </p>
+{% block header %}
+Games
+{% endblock %}
 
+{% block content %}
     {% if not games %}
     <p>No games matched the search string.</p>
     {% else %}
@@ -24,13 +13,13 @@
         <tr>
             <th>Action</th>
             <th>Name</th>
-            <th>Gamesystems</td>
+            <th>Gamesystems</th>
             <th>Played</th>
             <th>Finished</th>            
         </tr>
       {% for game in games %}
         <tr>
-            <td><a href="{% url 'detail' game.id %}">View</a></td>
+            <td><a href="{% url 'detail' game.id %}"><img src="{% static 'img/magnifier.png' %}"" alt='view'/></a></td>
             <td>{{ game.name }}</td>
             <td>
                 {% for gamesystem in game.gamesystems.all %}
@@ -43,8 +32,4 @@
         {% endfor %}
     </table>
     {% endif %}
-<!--
-    <footer>Dies ist die Fussnote</footer>
--->
-  </body>
-</html>
+{% endblock %}

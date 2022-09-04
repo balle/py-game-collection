@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Py Game Collection</title>
-  </head>
-  <body>
-    <h2>Gamesystem Details for {{ gamesystem.name }}</h2>
+{% extends "base.html" %}
 
+{% block header %}
+Gamesystem Details for {{ gamesystem.name }}
+{% endblock %}
+
+{% block content %}
     <table>
         <tr>
             <th>Action</th>
@@ -23,5 +22,4 @@
         </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}

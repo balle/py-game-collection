@@ -1,0 +1,43 @@
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+footer {
+    font-size: 10px;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+    header {
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        padding: 15px;        
+    }
+
+    nav {
+        text-align: left;
+    }
+
+    .search {
+        text-align: center;
+        padding: 15px;        
+    }
+
+    main, table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    main, th, td {
+        padding: 15px;
+    }
+
+    footer {
+        text-align: right;        
+    }
+}
