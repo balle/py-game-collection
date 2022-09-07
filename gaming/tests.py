@@ -7,7 +7,7 @@ from .models import Game, Gamesystem
 class GamingTests(TestCase):
     def setUp(self):
         self.gamesystem = Gamesystem.objects.create(name="Test Gamesystem")
-        self.game = Game.objects.create(name="Test Game")
+        self.game = Game.objects.create(name="Test Game", played=True, finished=False)
         self.game.gamesystems.add(self.gamesystem)
         self.game.save()
         
@@ -22,8 +22,23 @@ class GamingTests(TestCase):
         self.assertIs(response.status_code, 200)
         self.assertContains(response, "Played")
 
+    def test_games_unplayed(self):        
+        response = self.client.get(reverse('games_unplayed'))
+        self.assertIs(response.status_code, 200)
+        self.assertNotContains(response, self.game.name)
+
+    def test_games_unfinished(self):        
+        response = self.client.get(reverse('games_unfinished'))
+        self.assertIs(response.status_code, 200)
+        self.assertContains(response, self.game.name)
+
+    def test_gamesystems(self):        
+        response = self.client.get(reverse('gamesystems'))
+        self.assertIs(response.status_code, 200)
+        self.assertContains(response, self.gamesystem.name)
+
     def test_gamesystem_details(self):
-        url = reverse('gamesystem', args=(self.gamesystem.id,))
+        url = reverse('gamesystem_detail', args=(self.gamesystem.id,))
         response = self.client.get(url)
         self.assertIs(response.status_code, 200)
         self.assertContains(response, self.game.name)

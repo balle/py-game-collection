@@ -12,6 +12,13 @@
       {% block header %}{% endblock %}
     </header>
 
+    <nav>
+      <a href="{% url "index" %}">All Games</a> |
+      <a href="{% url "games_unplayed" %}">Unplayed Games</a> |
+      <a href="{% url "games_unfinished" %}">Unfinished Games</a> |
+      <a href="{% url "gamesystems" %}">Gamesystems</a> 
+    </nav>
+
     <div class="search">
       <form action="{% url "search" %}" method="post">
           {% csrf_token %}
@@ -20,14 +27,9 @@
       </form>
     </div>
 
-
-<!--
-  <nav><a>Link1|</a><a>Link2</a></nav>
--->
-
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
 
 <!--
     <footer>Dies ist die Fussnote</footer>

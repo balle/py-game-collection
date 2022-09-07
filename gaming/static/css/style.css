@@ -20,7 +20,8 @@ img {
     }
 
     nav {
-        text-align: left;
+        text-align: center;
+        padding: 15px;
     }
 
     .search {

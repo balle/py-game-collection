@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% load gaming_extras %}
+
+{% block header %}
+Gamesystems
+{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Action</th>
+        <th>Name</th>
+        <th>No of games</th>            
+    </tr>
+  {% for gamesystem in gamesystems %}
+    <tr>
+        <td><a href="{% url 'gamesystem_detail' gamesystem.id %}"><img src="{% static 'img/magnifier.png' %}"" alt='view'/></a></td>
+        <td>{{ gamesystem.name }}</td>
+        <td>{{ no_of_games|get_value_from_dict:gamesystem.id }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
