@@ -104,7 +104,7 @@ def get_all_games(base_url):
 
     return result
 
-def create_game(game_name, gamesystem):
+def create_game(game_name, game_status, gamesystem):
     """
     Check if game with same name already exists in the db
     And if it has the given gamesystem set
@@ -124,6 +124,16 @@ def create_game(game_name, gamesystem):
 
     if not gamesystem in game.gamesystems.all():
         game.gamesystems.add(Gamesystem.objects.get(name=gamesystem))
+
+    if game_status == "unplayed":
+        game.finished = False
+        game.played = False
+    elif game_status == "unfinished":
+        game.finished = False
+        game.played = True
+    elif game_status == "beaten":
+        game.finished = True
+        game.played = True
 
     game.save()
 
@@ -148,5 +158,5 @@ print("MUH " + str(gamesystems))
 for gamesystem, url in gamesystems.items():
     games = get_all_games(url)
 
-    for game in games:
-        create_game(game, gamesystem)
+    for game_name, game_status in games.items():
+        create_game(game_name, game_status, gamesystem)
