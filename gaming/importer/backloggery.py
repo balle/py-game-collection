@@ -18,28 +18,38 @@ from gaming.models import Gamesystem, Game
 
 ###[ Subroutines 
 
+def get_url(url):
+    """
+    Get the url and return requests.Response object
+    """
+    response = None
+
+    try:
+        response = requests.get(url)
+    except requests.exceptions.ConnectionError as e:
+        print("Cannot connect to url %s: %s" % (url, e))
+
+    if response.status_code != 200:
+        response = None 
+        print("Request to %s failed with %d" % (url, response.status_code))
+
+    return response
+
+
 def get_all_gamesystems(base_url):
     """
     Parse all gamesystems from backloggery
     Returns a dict with gamesystem name as key and detail url as value
     """
-    response = None
     result = {}
+    response = get_url(base_url)
 
-    try:
-        response = requests.get(base_url)
-    except requests.exceptions.ConnectionError as e:
-        print("Cannot connect to url %s: %s" % (base_url, e))
-
-    if response.status_code == 200:
+    if response:
         soup = BeautifulSoup(response.content, features="html.parser")
 
         for gamesystem in soup.findAll('a', attrs={'class': 'sysbox'}):
             if gamesystem.text != "All Games":
-                result[gamesystem.text] = gamesystem.get('href')
-
-    else:
-        print("Request to %s failed with %d" % (base_url, response.status_code))
+                result[gamesystem.text] = gamesystem.get('href').replace("games.php", "ajax_moregames.php")
 
     return result
 
@@ -63,6 +73,37 @@ def create_gamesystems(gamesystems):
             Gamesystem.objects.create(name=gamesystem)
 
 
+def get_all_games(base_url):
+    """
+    Parse all games from backloggery
+    Returns a dict with game name as key and status as value
+    """
+    result = {}
+    response = get_url(base_url)
+
+    if response:
+        soup = BeautifulSoup(response.content, features="html.parser")
+
+        for section in soup.findAll('section', attrs={'class': 'gamebox'}):
+            if section.find('b'):
+                game_name = section.find('b').text
+                img = section.find('img')
+
+                if img and img.get('src'):
+                    game_status = None
+
+                    if "unplayed" in img.get('src'):
+                        game_status = "unplayed"
+                    elif "unfinished" in img.get('src'):
+                        game_status = "unfinished"
+                    elif "beaten" in img.get('src'):
+                        game_status = "beaten"
+
+                    print("%s %s" % (game_name, game_status))
+                    result[game_name] = game_status
+
+    return result
+
 ###[ MAIN PART
 
 if len(sys.argv) < 2:
@@ -78,3 +119,6 @@ if not gamesystems or len(gamesystems) == 0:
     sys.exit(0)
 
 create_gamesystems(gamesystems)
+
+for (gamesystem, url) in gamesystems.items:
+    games = get_all_games(url)
