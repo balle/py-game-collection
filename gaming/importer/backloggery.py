@@ -36,20 +36,20 @@ def get_url(url):
     return response
 
 
-def get_all_gamesystems(base_url):
+def get_all_gamesystems(base_url, user):
     """
     Parse all gamesystems from backloggery
     Returns a dict with gamesystem name as key and detail url as value
     """
     result = {}
-    response = get_url(base_url)
+    response = get_url(base_url + user)
 
     if response:
         soup = BeautifulSoup(response.content, features="html.parser")
 
         for gamesystem in soup.findAll('a', attrs={'class': 'sysbox'}):
             if gamesystem.text != "All Games":
-                result[gamesystem.text] = gamesystem.get('href').replace("games.php", "ajax_moregames.php")
+                result[gamesystem.text] = base_url + gamesystem.get('href').replace("games.php", "ajax_moregames.php")
 
     return result
 
@@ -104,21 +104,49 @@ def get_all_games(base_url):
 
     return result
 
+def create_game(game_name, gamesystem):
+    """
+    Check if game with same name already exists in the db
+    And if it has the given gamesystem set
+    Otherwise create it   
+    """
+    game = None
+
+    try:
+        game = Game.objects.get(name=game_name)
+        print("Game %s already exists" % (game_name,))
+    except Game.DoesNotExist:
+        pass
+
+    if not game:
+        print("Creating game " + game_name)
+        game = Game.objects.create(name=game_name)
+
+    if not gamesystem in game.gamesystems.all():
+        game.gamesystems.add(Gamesystem.objects.get(name=gamesystem))
+
+    game.save()
+
+
 ###[ MAIN PART
 
 if len(sys.argv) < 2:
     print(sys.argv[0] + " <username>")
     sys.exit(1)
 
-base_url = "https://www.backloggery.com/" + sys.argv[1]
+base_url = "https://www.backloggery.com/"
 
-gamesystems = get_all_gamesystems(base_url)
+gamesystems = get_all_gamesystems(base_url, sys.argv[1])
 
 if not gamesystems or len(gamesystems) == 0:
     print("Failed to get gamesystems")
     sys.exit(0)
 
 create_gamesystems(gamesystems)
+print("MUH " + str(gamesystems))
 
-for (gamesystem, url) in gamesystems.items:
+for gamesystem, url in gamesystems.items():
     games = get_all_games(url)
+
+    for game in games:
+        create_game(game, gamesystem)
