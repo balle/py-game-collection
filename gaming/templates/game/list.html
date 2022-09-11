@@ -15,7 +15,8 @@ Games
             <th>Name</th>
             <th>Gamesystems</th>
             <th>Played</th>
-            <th>Finished</th>            
+            <th>Finished</th>  
+            <th>Download Only</th>          
         </tr>
       {% for game in games %}
         <tr>
@@ -28,6 +29,7 @@ Games
             </td>
             <td>{{ game.played }}</td>
             <td>{{ game.finished }}</td>
+            <td>{{ game.download_only }}</td>
         </tr>
         {% endfor %}
     </table>

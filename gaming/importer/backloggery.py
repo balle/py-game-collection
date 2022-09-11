@@ -2,6 +2,7 @@
 
 ###[ Loading modules
 
+import re
 import os
 import sys
 import django
@@ -25,6 +26,7 @@ def get_url(url):
     response = None
 
     try:
+        print("Fetching url " + url)
         response = requests.get(url)
     except requests.exceptions.ConnectionError as e:
         print("Cannot connect to url %s: %s" % (url, e))
@@ -73,10 +75,11 @@ def create_gamesystems(gamesystems):
             Gamesystem.objects.create(name=gamesystem)
 
 
-def get_all_games(base_url):
+def get_all_games(base_url, meomorycard={}):
     """
-    Parse all games from backloggery
-    Returns a dict with game name as key and status as value
+    Parse all games from backloggery, merge the parsed data with the optional memorycard data
+    Returns a dict with game name as key and another dict with keys like 
+    status, started- / finished date and download_only as value
     """
     result = {}
     response = get_url(base_url)
@@ -87,6 +90,8 @@ def get_all_games(base_url):
         for section in soup.findAll('section', attrs={'class': 'gamebox'}):
             if section.find('b'):
                 game_name = section.find('b').text
+                result[game_name] = {}
+
                 img = section.find('img')
 
                 if img and img.get('src'):
@@ -100,11 +105,25 @@ def get_all_games(base_url):
                         game_status = "beaten"
 
                     print("%s %s" % (game_name, game_status))
-                    result[game_name] = game_status
+                    result[game_name]['status'] = game_status
+
+                if section.find('div', attrs={'class': 'gamerow'}).find('img'):
+                    gamerow = section.find('section', attrs={'class': 'gamerow'})
+                
+                    if gamerow:
+                        img = gamerow.find('img')
+
+                        if img and img.get('src') and "other" in img.get('src'):
+                            result[game_name]['download_only'] = True
+                
+                if memorycard.get(game_name):
+                    for game_data, game_value in memorycard[game_name].items():
+                        result[game_name][game_data] = game_value
+            
 
     return result
 
-def create_game(game_name, game_status, gamesystem):
+def create_game(game_name, game_data, gamesystem):
     """
     Check if game with same name already exists in the db
     And if it has the given gamesystem set
@@ -114,7 +133,7 @@ def create_game(game_name, game_status, gamesystem):
 
     try:
         game = Game.objects.get(name=game_name)
-        print("Game %s already exists" % (game_name,))
+        print("Game %s already exists. Updating data." % (game_name,))
     except Game.DoesNotExist:
         pass
 
@@ -125,17 +144,68 @@ def create_game(game_name, game_status, gamesystem):
     if not gamesystem in game.gamesystems.all():
         game.gamesystems.add(Gamesystem.objects.get(name=gamesystem))
 
-    if game_status == "unplayed":
+    if game_data['status'] == "unplayed":
         game.finished = False
         game.played = False
-    elif game_status == "unfinished":
+    elif game_data['status'] == "unfinished":
         game.finished = False
         game.played = True
-    elif game_status == "beaten":
+    elif game_data['status'] == "beaten":
         game.finished = True
         game.played = True
 
+    if game_data.get('download_only'):
+        game.download_only = True
+
+    if not game_data.get('created_date') and game_data.get('started_date'):
+        game_data['created_date'] = game_data['started_date']
+
+    if not game_data.get('created_date') and game_data.get('finished_date'):
+        game_data['created_date'] = game_data['finished_date']
+
+    for key in ['created_date', 'started_date', 'finished_date']:
+        if game_data.get(key):
+            # month-day-year
+            date = game_data[key].split('-')
+            setattr(game, key, "20%s-%s-%s 00:00" % (date[2], date[0], date[1]))    
+
     game.save()
+
+def read_memorycard(base_url, user):
+    """
+    Read memorycard page of user to parse when a game entered the collection,
+    when one started playing it or beated it
+    Returns dict with game name as key and dict as value with the parsed data
+    """
+    result = {}
+    response = get_url(base_url + user)
+
+    if response:
+        soup = BeautifulSoup(response.content, features="html.parser")
+        game_date = None
+
+        # \n09-02-22 New: Road Redemption \xa0(Switch)            
+        # New: Parasite Eve 2  (PS) 
+        memorycard_entry = re.compile(r'(?P<date>\d\d\-\d\d\-\d\d)?\s?(?P<status>.+?): (?P<name>.+) \(.+\)', 
+                                                    re.MULTILINE)
+
+        for label in soup.findAll('label'):            
+            match = memorycard_entry.match(label.text.replace('\n','').replace('\xa0',''))
+
+            if match:
+                result[match.group('name')] = {}
+
+                if match.group('date'):
+                    game_date = match.group('date')
+
+                if "New" in match.group('status'):
+                    result[match.group('name')]['created_date'] = game_date
+                elif 'Started' in match.group('status'):
+                    result[match.group('name')]['started_date'] = game_date
+                elif 'Beat' in match.group('status'):
+                    result[match.group('name')]['finished_date'] = game_date
+
+    return result
 
 
 ###[ MAIN PART
@@ -145,6 +215,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 base_url = "https://www.backloggery.com/"
+memorycard_url = "https://backloggery.com/memorycard.php?user="
 
 gamesystems = get_all_gamesystems(base_url, sys.argv[1])
 
@@ -153,10 +224,14 @@ if not gamesystems or len(gamesystems) == 0:
     sys.exit(0)
 
 create_gamesystems(gamesystems)
-print("MUH " + str(gamesystems))
+
+memorycard = read_memorycard(memorycard_url, "balle")
 
 for gamesystem, url in gamesystems.items():
-    games = get_all_games(url)
+    games = get_all_games(url, memorycard)
 
-    for game_name, game_status in games.items():
-        create_game(game_name, game_status, gamesystem)
+    # TODO: get and parse memory card data
+    # and save started and finished dates
+
+    for game_name, game_data in games.items():
+        create_game(game_name, game_data, gamesystem)

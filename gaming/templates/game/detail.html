@@ -19,16 +19,28 @@ Game Details
             </td>
         </tr>
         <tr>
-            <td>Played:</td>
-            <td>{{ game.played }}</td>
+            <td>Played{% if game.played %} first{% endif %}:</td>
+            {% if game.played %}
+              <td>{{ game.started_date }}</td>
+            {% else %}
+              <td>{{ game.played }}</td>
+            {% endif %}
         </tr>
         <tr>
             <td>Finished:</td>
-            <td>{{ game.finished }}</td>
+            {% if game.finished %}
+              <td>{{ game.finished_date }}</td>
+            {% else %}
+              <td>{{ game.finished }}</td>
+            {% endif %}
         </tr>
         <tr>
             <td>Inserted into collection</td>
-            <td>{{ game.pub_date }}</td>
+            <td>{{ game.created_date }}</td>
+        </tr>        
+        <tr>
+            <td>Download Only</td>
+            <td>{{ game.download_only }}</td>
         </tr>
     </table>
 {% endblock %}
