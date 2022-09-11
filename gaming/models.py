@@ -15,7 +15,7 @@ class Game(models.Model):
     finished_date = models.DateTimeField('date finished', null=True, blank=True)
     played = models.BooleanField(default=False)
     finished = models.BooleanField(default=False)
-    download_only = models.BooleanField(default=False)
+    download = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

@@ -79,7 +79,7 @@ def get_all_games(base_url, meomorycard={}):
     """
     Parse all games from backloggery, merge the parsed data with the optional memorycard data
     Returns a dict with game name as key and another dict with keys like 
-    status, started- / finished date and download_only as value
+    status, started- / finished date download as value
     """
     result = {}
     response = get_url(base_url)
@@ -103,18 +103,20 @@ def get_all_games(base_url, meomorycard={}):
                         game_status = "unfinished"
                     elif "beaten" in img.get('src'):
                         game_status = "beaten"
+                    elif "completed" in img.get('src'):
+                        game_status = "completed"
 
                     print("%s %s" % (game_name, game_status))
                     result[game_name]['status'] = game_status
 
-                if section.find('div', attrs={'class': 'gamerow'}).find('img'):
-                    gamerow = section.find('section', attrs={'class': 'gamerow'})
+                if section.find('div', attrs={'class': 'gamerow'}):
+                    gamerow = section.find('div', attrs={'class': 'gamerow'})
                 
                     if gamerow:
                         img = gamerow.find('img')
 
                         if img and img.get('src') and "other" in img.get('src'):
-                            result[game_name]['download_only'] = True
+                            result[game_name]['download'] = True
                 
                 if memorycard.get(game_name):
                     for game_data, game_value in memorycard[game_name].items():
@@ -150,12 +152,12 @@ def create_game(game_name, game_data, gamesystem):
     elif game_data['status'] == "unfinished":
         game.finished = False
         game.played = True
-    elif game_data['status'] == "beaten":
+    elif game_data['status'] == "beaten" or game_data['status'] == "completed":
         game.finished = True
         game.played = True
 
-    if game_data.get('download_only'):
-        game.download_only = True
+    if game_data.get('download'):
+        game.download = True
 
     if not game_data.get('created_date') and game_data.get('started_date'):
         game_data['created_date'] = game_data['started_date']
