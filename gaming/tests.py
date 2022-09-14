@@ -2,15 +2,27 @@ from ast import Delete
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
-from .models import Game, Gamesystem
+from .models import Game, Gamesystem, Genre
 
 class GamingTests(TestCase):
     def setUp(self):
         self.gamesystem = Gamesystem.objects.create(name="Test Gamesystem")
-        self.game = Game.objects.create(name="Test Game", played=True, finished=False)
+        self.genre = Genre.objects.create(name="Ego-Shooter")
+        self.game = Game.objects.create(name="Doom", played=True, finished=False)
         self.game.gamesystems.add(self.gamesystem)
         self.game.save()
-        
+
+    def test_game_description(self):
+        self.assertEquals(self.game.description, "")
+        self.game.fetch_description()
+        self.assertContains(self.game.description,"id Software")
+
+    def test_game_genre(self):
+        self.assertEquals(self.game.genre.count(), 0)
+        self.game.fetch_genre()
+        self.assertEquals(self.game.genre.count(), 1)        
+        self.assertIn(self.genre, self.game.genre)
+
     def test_gaming_index(self):        
         response = self.client.get(reverse('index'))
         self.assertIs(response.status_code, 200)
