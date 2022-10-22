@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 class Gamesystem(models.Model):
     name = models.CharField(max_length=200)
@@ -10,7 +9,7 @@ class Gamesystem(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=200)
     gamesystems = models.ManyToManyField(Gamesystem)
-    created_date = models.DateTimeField('date created', default=timezone.now())
+    created_date = models.DateTimeField('date created', auto_now_add=True)
     started_date = models.DateTimeField('date started', null=True, blank=True)
     finished_date = models.DateTimeField('date finished', null=True, blank=True)
     played = models.BooleanField(default=False)
