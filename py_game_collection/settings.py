@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
     'gaming.apps.GamingConfig',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
