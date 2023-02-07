@@ -34,50 +34,56 @@ class Game(models.Model):
 
         try:
             page = wikipedia.page(self.name + " game")
-        except wikipedia.exceptions.PageError or wikipedia.exceptions.DisambiguationError:
+        except (wikipedia.exceptions.PageError, wikipedia.exceptions.DisambiguationError):
             pass
 
         return page
 
-    def fetch_description(self):
+    def parse_description(self, page):
         """
-        Fetch game description from wikipedia and save it in the model
+        Parse game description from wikipedia page and save it in the model
         """
-        page = self._get_page()
-
         if page:
             self.description = page.summary
 
-    def fetch_genre(self):
+    def parse_genre(self, page):
         """
-        Fetch game page from wikipedia, parse its genre and save it in the model
+        Parse genres from wikipedia page and save it in the model
         Create a Genre model object if Genry does not exist
         """
-        page = self._get_page()
+        if not page:
+            return
+        
+        soup = BeautifulSoup(page.html(), features="html.parser")
 
-        if page:
-            soup = BeautifulSoup(page.html(), features="html.parser")
+        for table in soup.find_all("table", attrs={"class": "infobox"}):
+            for row in table.find_all("tr"):
+                if row.th and row.th.a and "genre" in row.th.a.text.lower():
+                    genre = None
 
-            for table in soup.find_all("table", attrs={"class": "infobox"}):
-                for row in table.find_all("tr"):
-                    if row.th and row.th.a and "genre" in row.th.a.text.lower():
-                        try:
-                            genre = Genre.objects.filter(name=row.td.a.text)                            
-                        except Genre.DoesNotExist or NoneType:
-                            genre = Genre.objects.create(name=row.td.a.text)
-                            self.genre.add(genre)
+                    try:
+                        genre = Genre.objects.get(name=row.td.a.text)
+                    except Genre.DoesNotExist or NoneType:
+                        genre = Genre.objects.create(name=row.td.a.text)
 
-
+                    self.genre.add(genre)
 
     # Overwrite save method to fetch genre and description if unset
-    # def save(self, *args, **kwargs):
-    #     if self.pk and self.description == "":
-    #         self.fetch_description()
+    def save(self, *args, **kwargs):
+        if self.pk:
+            page = None
 
-    #     if self.pk and len(self.genre.all) == 0:
-    #         self.fetch_genre
+            if self.description == "":
+                page = self._get_page()
+                self.parse_description(page)
 
-    #     return super(Game, self).save(*args, **kwargs)
+            if len(self.genre.all()) == 0:
+                if not page:
+                    page = self._get_page()
+
+                self.parse_genre(page)
+
+        return super(Game, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
