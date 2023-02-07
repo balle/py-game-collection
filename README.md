@@ -33,3 +33,4 @@ python3 gaming/importer/backloggery.py <username>
 ## Credits
 
 Icons from freeicons.io
+Game descriptions and genre from Wikipedia
