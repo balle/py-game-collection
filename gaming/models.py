@@ -22,8 +22,8 @@ class Game(models.Model):
     played = models.BooleanField(default=False)
     finished = models.BooleanField(default=False)
     download_only = models.BooleanField(default=False)
-    genre = models.ManyToManyField(Genre)
-    description = models.TextField(max_length=2048, default="")
+    genre = models.ManyToManyField(Genre, blank=True)
+    description = models.TextField(max_length=2048, blank=True)
 
     def _get_page(self):
         """
