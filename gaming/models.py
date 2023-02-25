@@ -58,13 +58,13 @@ class Game(models.Model):
 
         for table in soup.find_all("table", attrs={"class": "infobox"}):
             for row in table.find_all("tr"):
-                if row.th and row.th.a and "genre" in row.th.a.text.lower():
+                if row.th and row.th.a and row.th.a.text and "genre" in row.th.a.text.lower():
                     genre = None
 
                     try:
-                        genre = Genre.objects.get(name=row.td.a.text)
+                        genre = Genre.objects.get(name=row.th.a.text)
                     except Genre.DoesNotExist or NoneType:
-                        genre = Genre.objects.create(name=row.td.a.text)
+                        genre = Genre.objects.create(name=row.th.a.text)
 
                     self.genre.add(genre)
 
