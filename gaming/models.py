@@ -3,17 +3,26 @@ from django.db import models
 import wikipedia
 from bs4 import BeautifulSoup
 class Gamesystem(models.Model):
+    class Meta:
+        ordering = ['name']
+
     name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 
 class Genre(models.Model):
+    class Meta:
+        ordering = ['name']
+
     name = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
 class Game(models.Model):
+    class Meta:
+        ordering = ['name']
+
     name = models.CharField(max_length=200)
     gamesystems = models.ManyToManyField(Gamesystem)
     created_date = models.DateTimeField('date created', auto_now_add=True)
