@@ -19,6 +19,15 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
+
+class Tag(models.Model):
+    class Meta:
+        ordering = ['name']
+
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 class Game(models.Model):
     class Meta:
         ordering = ['name']
@@ -32,6 +41,7 @@ class Game(models.Model):
     finished = models.BooleanField(default=False)
     download_only = models.BooleanField(default=False)
     genre = models.ManyToManyField(Genre, blank=True)
+    tag = models.ManyToManyField(Tag, blank=True)
     description = models.TextField(max_length=2048, blank=True)
 
     def _get_page(self):
