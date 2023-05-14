@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 import wikipedia
 from bs4 import BeautifulSoup
@@ -7,6 +8,7 @@ class Gamesystem(models.Model):
         ordering = ['name']
 
     name = models.CharField(max_length=200)
+    release_date = models.DateField(blank=True)
 
     def __str__(self):
         return self.name
@@ -42,7 +44,10 @@ class Game(models.Model):
     download_only = models.BooleanField(default=False)
     genre = models.ManyToManyField(Genre, blank=True)
     tag = models.ManyToManyField(Tag, blank=True)
+    rating = models.IntegerField(validators=[MinValueValidator(0),
+                                MaxValueValidator(10)])
     description = models.TextField(max_length=2048, blank=True)
+    release_date = models.DateField(blank=True)
 
     def _get_page(self):
         """
