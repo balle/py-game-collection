@@ -45,9 +45,11 @@ class Game(models.Model):
     genre = models.ManyToManyField(Genre, blank=True)
     tag = models.ManyToManyField(Tag, blank=True)
     rating = models.IntegerField(validators=[MinValueValidator(0),
-                                MaxValueValidator(10)])
+                                MaxValueValidator(10)],
+                                blank=True,
+                                default=0)
     description = models.TextField(max_length=2048, blank=True)
-    release_date = models.DateField(blank=True)
+    release_date = models.DateField(blank=True, null=True)
 
     def _get_page(self):
         """
