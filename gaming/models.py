@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 import wikipedia
@@ -108,6 +109,9 @@ class Game(models.Model):
                     page = self._get_page()
 
                 self.parse_genre(page)
+
+        if self.played and not self.started_date:
+            self.started_date = timezone.now()
 
         return super(Game, self).save(*args, **kwargs)
 
