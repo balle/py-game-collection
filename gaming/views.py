@@ -1,5 +1,6 @@
 from http.client import HTTPResponse
 from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views import generic
 
@@ -11,6 +12,10 @@ def index(request):
 def list_view(request, games=None):
     if games == None:
         games = Game.objects.all().order_by('name')
+
+    paginator = Paginator(games, 50)
+    page = request.GET.get('page')
+    games = paginator.get_page(page)
 
     return render(request, 'game/list.html', { 'games': games })
 

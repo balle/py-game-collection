@@ -32,6 +32,20 @@ Games
             <td>{{ game.download }}</td>
         </tr>
         {% endfor %}
-    </table>
+    </table>    
+
+    <div class="pagination">
+        {% if games.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ games.previous_page_number }}">previous</a>
+        {% endif %}
+
+        Page {{ games.number }} of {{ games.paginator.num_pages }}.
+
+        {% if games.has_next %}
+            <a href="?page={{ games.next_page_number }}">next</a>
+            <a href="?page={{ games.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </div>
     {% endif %}
 {% endblock %}

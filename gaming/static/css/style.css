@@ -38,6 +38,11 @@ img {
         padding: 15px;
     }
 
+    .pagination {
+        text-align: center;
+        padding: 15px;
+    }
+
     footer {
         text-align: right;        
     }
