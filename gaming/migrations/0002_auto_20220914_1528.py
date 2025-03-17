@@ -2,7 +2,7 @@
 
 import datetime
 from django.db import migrations, models
-from django.utils.timezone import utc
+import datetime
 
 
 class Migration(migrations.Migration):
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='game',
             name='created_date',
-            field=models.DateTimeField(default=datetime.datetime(2022, 9, 14, 13, 28, 50, 346965, tzinfo=utc), verbose_name='date created'),
+            field=models.DateTimeField(default=datetime.datetime(2022, 9, 14, 13, 28, 50, 346965, tzinfo=datetime.timezone.utc), verbose_name='date created'),
         ),
         migrations.AddField(
             model_name='game',
