@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views import generic
+from django.db.models import Count
 
 from .models import Game, Gamesystem
 
@@ -54,16 +55,17 @@ class DetailView(generic.DetailView):
     template_name = 'game/detail.html'
 
 def gamesystems(request):
-    gamesystems = Gamesystem.objects.all().order_by('name')
-    no_of_games = {}
+    gamesystems = Gamesystem.objects.annotate(num_games=Count('game')).order_by('-num_games')
 
-    for gamesystem in gamesystems:
-        no_of_games[gamesystem.id] = gamesystem.game_set.all().count()
-
-    return render(request, 'gamesystem/list.html', { 'gamesystems': gamesystems,
-                                                      'no_of_games': no_of_games })
+    return render(request, 'gamesystem/list.html', { 'gamesystems': gamesystems })
 
 def gamesystem_detail(request, gamesystem_id):
     gamesystem = get_object_or_404(Gamesystem, pk=gamesystem_id)
+    games = gamesystem.game_set.all().order_by('name')
+
+    paginator = Paginator(games, 50)
+    page = request.GET.get('page')
+    games = paginator.get_page(page)
+
     return render(request, 'gamesystem/detail.html', { 'gamesystem': gamesystem,
-                                                       'games': gamesystem.game_set.all().order_by('name')})
+                                                       'games': games})

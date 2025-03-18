@@ -17,7 +17,7 @@ Gamesystems
     <tr>
         <td><a href="{% url 'gamesystem_detail' gamesystem.id %}"><img src="{% static 'img/magnifier.png' %}"" alt='view'/></a></td>
         <td>{{ gamesystem.name }}</td>
-        <td>{{ no_of_games|get_value_from_dict:gamesystem.id }}</td>
+        <td>{{ gamesystem.num_games }}</td>
     </tr>
   {% endfor %}
 </table>
