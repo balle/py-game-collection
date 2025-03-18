@@ -11,13 +11,17 @@ Gamesystems
     <tr>
         <th>Action</th>
         <th>Name</th>
-        <th>No of games</th>            
+        <th>No of games</th>
+        <th>Finished</th>
+        <th>Unplayed</th>
     </tr>
   {% for gamesystem in gamesystems %}
     <tr>
         <td><a href="{% url 'gamesystem_detail' gamesystem.id %}"><img src="{% static 'img/magnifier.png' %}"" alt='view'/></a></td>
         <td>{{ gamesystem.name }}</td>
         <td>{{ gamesystem.num_games }}</td>
+        <td>{{ gamesystem.finished_games }}</td>
+        <td>{{ gamesystem.unplayed_games }}</td>
     </tr>
   {% endfor %}
 </table>
