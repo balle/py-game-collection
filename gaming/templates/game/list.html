@@ -34,6 +34,7 @@ Games
         {% endfor %}
     </table>    
 
+    {% if games.paginator.num_pages > 1 %}
     <div class="pagination">
         {% if games.has_previous %}
             <a href="?page=1">&laquo; first</a>
@@ -47,5 +48,6 @@ Games
             <a href="?page={{ games.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </div>
+    {% endif %}
     {% endif %}
 {% endblock %}
