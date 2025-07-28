@@ -127,5 +127,19 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# Logs
+react-app/logs
+react-app/*.log
+react-app/npm-debug.log*
+react-app/yarn-debug.log*
+react-app/yarn-error.log*
+react-app/pnpm-debug.log*
+react-app/lerna-debug.log*
+
+react-app/node_modules
+react-app/dist
+react-app/dist-ssr
+react-app/*.local
+
 # Pyre type checker
 .pyre/
