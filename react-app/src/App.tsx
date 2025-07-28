@@ -11,18 +11,26 @@ type GameType = {
 
 function App() {
   let [games, updateGames] = useState<GameType[]>([]);
+  let [pageNumber, setPageNumber] = useState(1);
   // updateGames(["Crash Bandicoot", "Super Mario", "Wipeout", "Burnout"]);
 
   let base_url = location.origin;
   base_url = "http://127.0.0.1:8000";
 
-  const apiUrl = `${base_url}/api/games/?page=1`;
-
+  const handleSelectPage = (forward: boolean) => {
+    if (forward) {
+      setPageNumber(pageNumber + 1);
+    } else {
+      setPageNumber(pageNumber - 1);
+    }
+  };
   const handleSelectedItem = (item: GameType) => {
     location.href = `${base_url}/game/${item.id}`;
   };
 
   useEffect(() => {
+    const apiUrl = `${base_url}/api/games/?page=${pageNumber}`;
+
     let ajax = new XMLHttpRequest();
     ajax.onload = function () {
       try {
@@ -37,14 +45,12 @@ function App() {
       } catch (error: any) {
         console.error("Failed parsing /api/games response ", error.message);
       }
-
-      console.log(this.response);
     };
 
     ajax.open("GET", apiUrl, false);
     ajax.setRequestHeader("Accept", "application/json");
     ajax.send();
-  }, []);
+  }, [pageNumber]);
 
   return (
     <div>
@@ -52,6 +58,7 @@ function App() {
         items={games}
         heading="Games"
         onSelectItem={handleSelectedItem}
+        onPageSelect={handleSelectPage}
       />
     </div>
   );
