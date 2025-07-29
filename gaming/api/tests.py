@@ -9,16 +9,25 @@ class GamingTests(APITestCase):
     fixtures = ['testdata.json'] 
 
     def test_get_games(self):
-        response = self.client.get(reverse('api-games'))
+        response = self.client.get(reverse('api-game-list'))
         self.assertEqual(response.status_code, 200)
 
         games = json.loads(response.content)
-        print(games)
         self.assertEqual(len(games['results']), 15)
+        self.assertTrue(games['results'][0]['name'] != "")
+        self.assertTrue(type(games['results'][0]['tag']) == list)
+
+    def test_get_game_details(self):
+        response = self.client.get(reverse('api-game-detail', args=(5,)))
+        self.assertEqual(response.status_code, 200)
+
+        games = json.loads(response.content)
+        self.assertEqual(games['name'], "Gran Turismo 7")
 
     def test_get_gamesystems(self):
-        response = self.client.get(reverse('api-gamesystems'))
+        response = self.client.get(reverse('api-gamesystems-list'))
         self.assertEqual(response.status_code, 200)
 
         gamesystems = json.loads(response.content)
         self.assertTrue(len(gamesystems) > 0)
+        self.assertTrue(gamesystems['results'][0]['name'] != "")
