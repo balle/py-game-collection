@@ -25,9 +25,17 @@ class GamingTests(APITestCase):
         self.assertEqual(games['name'], "Gran Turismo 7")
 
     def test_get_gamesystems(self):
-        response = self.client.get(reverse('api-gamesystems-list'))
+        response = self.client.get(reverse('api-gamesystem-list'))
         self.assertEqual(response.status_code, 200)
 
         gamesystems = json.loads(response.content)
         self.assertTrue(len(gamesystems) > 0)
         self.assertTrue(gamesystems['results'][0]['name'] != "")
+
+    def test_get_genres(self):
+        response = self.client.get(reverse('api-genre-list'))
+        self.assertEqual(response.status_code, 200)
+
+        genres = json.loads(response.content)
+        self.assertTrue(len(genres) > 0)
+        self.assertTrue(genres['results'][0]['name'] != "")
