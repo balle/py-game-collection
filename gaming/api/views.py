@@ -1,15 +1,15 @@
 from rest_framework.response import Response 
 from rest_framework.decorators import api_view
 from rest_framework import generics
-from gaming.models import Game, Gamesystem
-from .serializers import GameSerializer, GamesystemSerializer
+from gaming.models import Game, Gamesystem, Genre
+from .serializers import GameSerializer, GamesystemSerializer, GenreSerializer
 
 
-class GameListViewSet(generics.ListAPIView):
+class GameListView(generics.ListAPIView):
     queryset = Game.objects.all().order_by('name')
     serializer_class = GameSerializer
 
-class GameDetailViewSet(generics.RetrieveAPIView):
+class GameDetailView(generics.RetrieveAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
@@ -27,9 +27,14 @@ def create_game(request):
 
     return Response(serializer.data)
 
-class GamesystemListViewSet(generics.ListAPIView):
+class GamesystemListView(generics.ListAPIView):
     queryset = Gamesystem.objects.all().order_by('name')
     serializer_class = GamesystemSerializer
+
+class GenreListView(generics.ListAPIView):
+    queryset = Genre.objects.all().order_by('name')
+    serializer_class = GenreSerializer
+
 
 # @api_view(['GET'])
 # def get_all_gamesystems(request):
