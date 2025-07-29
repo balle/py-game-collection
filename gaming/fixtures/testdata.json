@@ -1,0 +1,750 @@
+[
+{
+  "model": "gaming.gamesystem",
+  "pk": 1,
+  "fields": {
+    "name": "PlayStation 5",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 2,
+  "fields": {
+    "name": "PlayStation 4",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 3,
+  "fields": {
+    "name": "PlayStation 3",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 4,
+  "fields": {
+    "name": "PlayStation",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 5,
+  "fields": {
+    "name": "PlayStation Portable",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 6,
+  "fields": {
+    "name": "Nintendo Switch",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 7,
+  "fields": {
+    "name": "Nintendo 3DS",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 8,
+  "fields": {
+    "name": "Nintendo DS",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 9,
+  "fields": {
+    "name": "SNES",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 10,
+  "fields": {
+    "name": "NES",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 11,
+  "fields": {
+    "name": "Game Boy Advance",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 12,
+  "fields": {
+    "name": "Game Boy/Color",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 13,
+  "fields": {
+    "name": "Game Boy",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 14,
+  "fields": {
+    "name": "PC",
+    "release_date": "2023-05-14"
+  }
+},
+{
+  "model": "gaming.gamesystem",
+  "pk": 15,
+  "fields": {
+    "name": "Playstation 2",
+    "release_date": "2000-11-24"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 1,
+  "fields": {
+    "name": "Third-person shooter"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 3,
+  "fields": {
+    "name": "Racing"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 5,
+  "fields": {
+    "name": "Action-adventure"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 6,
+  "fields": {
+    "name": "Fighting"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 7,
+  "fields": {
+    "name": "Sports"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 9,
+  "fields": {
+    "name": "First-person shooter"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 11,
+  "fields": {
+    "name": "Adventure"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 12,
+  "fields": {
+    "name": "Point-and-click adventure"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 13,
+  "fields": {
+    "name": "Action role-playing"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 14,
+  "fields": {
+    "name": "Turn-based strategy"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 15,
+  "fields": {
+    "name": "Kart racing"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 17,
+  "fields": {
+    "name": "Role-playing"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 18,
+  "fields": {
+    "name": "Puzzle"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 20,
+  "fields": {
+    "name": "Sim racing"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 23,
+  "fields": {
+    "name": "Pinball"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 24,
+  "fields": {
+    "name": "Survival horror"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 25,
+  "fields": {
+    "name": "Roguelike"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 28,
+  "fields": {
+    "name": "Puzzle-platform"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 29,
+  "fields": {
+    "name": "Business simulation"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 32,
+  "fields": {
+    "name": "Hack and Slash"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 34,
+  "fields": {
+    "name": "Jump 'n Run"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 35,
+  "fields": {
+    "name": "Combat flight"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 37,
+  "fields": {
+    "name": "Run and gun"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 40,
+  "fields": {
+    "name": "Stealth"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 47,
+  "fields": {
+    "name": "Isometric shooter"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 50,
+  "fields": {
+    "name": "Realtime Strategy"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 51,
+  "fields": {
+    "name": "Side Scrolling Shooter"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 52,
+  "fields": {
+    "name": "Arcade"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 53,
+  "fields": {
+    "name": "Card Game"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 55,
+  "fields": {
+    "name": "Music"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 56,
+  "fields": {
+    "name": "Party Game"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 59,
+  "fields": {
+    "name": "App"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 60,
+  "fields": {
+    "name": "Jump 'n Run 2D"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 61,
+  "fields": {
+    "name": "Jump 'n Run 3D"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 62,
+  "fields": {
+    "name": "Brawler"
+  }
+},
+{
+  "model": "gaming.genre",
+  "pk": 63,
+  "fields": {
+    "name": "Genre(s)"
+  }
+},
+{
+  "model": "gaming.tag",
+  "pk": 1,
+  "fields": {
+    "name": "Koop"
+  }
+},
+{
+  "model": "gaming.tag",
+  "pk": 2,
+  "fields": {
+    "name": "Next"
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 1,
+  "fields": {
+    "name": "Aliens Fireteam Elite",
+    "created_date": "2021-10-15T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": false,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Bla",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      1
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 2,
+  "fields": {
+    "name": "Crash Bandicoot 4 Its about time",
+    "created_date": "2021-03-19T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Blubb",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      1
+    ],
+    "genre": [
+      34
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 3,
+  "fields": {
+    "name": "Diablo 2 Resurrection",
+    "created_date": "2021-10-23T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Foo",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      1
+    ],
+    "genre": [
+      13,
+      32
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 4,
+  "fields": {
+    "name": "Gear Club Unlimited 2",
+    "created_date": "2021-02-11T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Bar",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      1
+    ],
+    "genre": [
+      3
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 5,
+  "fields": {
+    "name": "Gran Turismo 7",
+    "created_date": "2022-12-31T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "MUH",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      3,
+      20
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 6,
+  "fields": {
+    "name": "Immortals Fenyx Rising",
+    "created_date": "2022-08-09T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "MAEH",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      1
+    ],
+    "genre": [
+      5
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 7,
+  "fields": {
+    "name": "Kena Bridge of Spirits Deluxe Edition",
+    "created_date": "2022-10-24T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "MIAU",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      5
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 8,
+  "fields": {
+    "name": "Mortal Kombat 11",
+    "created_date": "2023-02-07T18:34:17.268Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": true,
+    "download_only": false,
+    "rating": 0,
+    "description": "Bark",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      1
+    ],
+    "genre": [
+      6
+    ],
+    "tag": [
+      2
+    ]
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 9,
+  "fields": {
+    "name": "Moto GP 21",
+    "created_date": "2022-04-08T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": true,
+    "rating": 0,
+    "description": "Brumm",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      3
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 10,
+  "fields": {
+    "name": "NBA 2K22",
+    "created_date": "2022-02-03T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": false,
+    "finished": false,
+    "download_only": true,
+    "rating": 0,
+    "description": "Boing",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      7
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 11,
+  "fields": {
+    "name": "NHL 22",
+    "created_date": "2022-02-22T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": false,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "jfdakjdljldka",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      7
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 12,
+  "fields": {
+    "name": "Oddworld Soulstorm",
+    "created_date": "2021-08-20T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Grrr",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      1
+    ],
+    "genre": [
+      34,
+      60,
+      28
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 13,
+  "fields": {
+    "name": "Quake",
+    "created_date": "2022-07-16T22:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": true,
+    "rating": 0,
+    "description": "Piu piu",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      6,
+      14,
+      1
+    ],
+    "genre": [
+      9
+    ],
+    "tag": []
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 14,
+  "fields": {
+    "name": "Tomb Raider Legend",
+    "created_date": "2021-12-20T23:00:00Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Hui",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      11,
+      8,
+      5
+    ],
+    "genre": [
+      5
+    ],
+    "tag": [
+      2
+    ]
+  }
+},
+{
+  "model": "gaming.game",
+  "pk": 15,
+  "fields": {
+    "name": "Tony Hawks Underground Remix 2",
+    "created_date": "2023-02-25T08:11:36.073Z",
+    "started_date": null,
+    "finished_date": null,
+    "played": true,
+    "finished": false,
+    "download_only": false,
+    "rating": 0,
+    "description": "Yeah",
+    "release_date": "2023-05-14",
+    "gamesystems": [
+      5
+    ],
+    "genre": [
+      7
+    ],
+    "tag": []
+  }
+}
+]
