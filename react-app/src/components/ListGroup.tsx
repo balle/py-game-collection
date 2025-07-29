@@ -8,17 +8,15 @@ type ItemType = {
 
 interface Props {
   items: ItemType[];
-  heading: string;
   onSelectItem: (item: ItemType) => void;
   onPageSelect: (forward: boolean) => void;
 }
 
-function ListGroup({ items, heading, onSelectItem, onPageSelect }: Props) {
+function ListGroup({ items, onSelectItem, onPageSelect }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   return (
     <>
-      <h1>{heading}</h1>
       {items.length === 0 && <p>No items found</p>}
 
       <ul className="list-group">

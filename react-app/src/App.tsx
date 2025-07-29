@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ListGroup from "./components/ListGroup";
-import Form from "./components/Form";
 
 import "./index.css";
+import Filter from "./components/Filter";
 
 type GameType = {
   id: number;
@@ -10,9 +10,42 @@ type GameType = {
 };
 
 function App() {
-  let [games, updateGames] = useState<GameType[]>([]);
-  let [pageNumber, setPageNumber] = useState(1);
-  // updateGames(["Crash Bandicoot", "Super Mario", "Wipeout", "Burnout"]);
+  const [games, updateGames] = useState<GameType[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedGamesystem, setSelectedGamesystem] = useState("");
+
+  // TODO: this should be fetched from server
+  let genres = [
+    {
+      id: 3,
+      name: "Racing",
+    },
+    {
+      id: 6,
+      name: "Fighting",
+    },
+    {
+      id: 34,
+      name: "Jump 'n run",
+    },
+  ];
+
+  // TODO: this should be fetched from server
+  let gamesystems = [
+    {
+      id: 3,
+      name: "Playstation 3",
+    },
+    {
+      id: 6,
+      name: "Nintendo Switch",
+    },
+    {
+      id: 9,
+      name: "SNES",
+    },
+  ];
 
   let base_url = location.origin;
   base_url = "http://127.0.0.1:8000";
@@ -28,6 +61,8 @@ function App() {
     location.href = `${base_url}/game/${item.id}`;
   };
 
+  // TODO: need new api call for filtering
+  // TODO: this should be in list component
   useEffect(() => {
     const apiUrl = `${base_url}/api/games/?page=${pageNumber}`;
 
@@ -50,17 +85,35 @@ function App() {
     ajax.open("GET", apiUrl, false);
     ajax.setRequestHeader("Accept", "application/json");
     ajax.send();
-  }, [pageNumber]);
+  }, [pageNumber, selectedGenre, selectedGamesystem]);
 
   return (
-    <div>
-      <ListGroup
-        items={games}
-        heading="Games"
-        onSelectItem={handleSelectedItem}
-        onPageSelect={handleSelectPage}
-      />
-    </div>
+    <>
+      <div className="text-center mt-3">
+        <h1>Games</h1>
+      </div>
+      <div className="container mt-3">
+        <div className="row">
+          <div className="col">Genres</div>
+          <div className="col">Gamesystems</div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <Filter items={genres} onSelect={setSelectedGenre} />
+          </div>
+          <div className="col">
+            <Filter items={gamesystems} onSelect={setSelectedGamesystem} />
+          </div>
+        </div>
+      </div>
+      <div className="row mt-4">
+        <ListGroup
+          items={games}
+          onSelectItem={handleSelectedItem}
+          onPageSelect={handleSelectPage}
+        />
+      </div>
+    </>
   );
 }
 
