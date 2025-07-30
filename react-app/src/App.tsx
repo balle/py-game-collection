@@ -1,13 +1,8 @@
-import { useEffect, useState } from "react";
-import ListGroup from "./components/ListGroup";
-
-import "./index.css";
+import { useState } from "react";
+import GameList from "./components/GameList";
 import Filter from "./components/Filter";
-
-type GameType = {
-  id: number;
-  name: string;
-};
+import type { GameType } from "./components/GameType";
+import "./index.css";
 
 function App() {
   const [games, updateGames] = useState<GameType[]>([]);
@@ -57,35 +52,11 @@ function App() {
       setPageNumber(pageNumber - 1);
     }
   };
+
+  // TODO: use react detail view
   const handleSelectedItem = (item: GameType) => {
     location.href = `${base_url}/game/${item.id}`;
   };
-
-  // TODO: need new api call for filtering
-  // TODO: this should be in list component
-  useEffect(() => {
-    const apiUrl = `${base_url}/api/games/?page=${pageNumber}`;
-
-    let ajax = new XMLHttpRequest();
-    ajax.onload = function () {
-      try {
-        const parsed = JSON.parse(this.response);
-        const newGames: GameType[] = parsed["results"].map(
-          (game: GameType) => ({
-            id: game.id,
-            name: game.name,
-          })
-        );
-        updateGames(newGames);
-      } catch (error: any) {
-        console.error("Failed parsing /api/games response ", error.message);
-      }
-    };
-
-    ajax.open("GET", apiUrl, false);
-    ajax.setRequestHeader("Accept", "application/json");
-    ajax.send();
-  }, [pageNumber, selectedGenre, selectedGamesystem]);
 
   return (
     <>
@@ -107,10 +78,15 @@ function App() {
         </div>
       </div>
       <div className="row mt-4">
-        <ListGroup
-          items={games}
-          onSelectItem={handleSelectedItem}
+        <GameList
+          base_url={base_url}
+          games={games}
+          pageNumber={pageNumber}
+          selectedGenre={selectedGenre}
+          selectedGamesystem={selectedGamesystem}
+          onSelectGame={handleSelectedItem}
           onPageSelect={handleSelectPage}
+          updateGames={updateGames}
         />
       </div>
     </>
