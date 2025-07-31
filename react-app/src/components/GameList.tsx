@@ -25,10 +25,13 @@ function GameList({
 }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // TODO: need new api call for filtering
   useEffect(() => {
     const apiUrl = `${base_url}/api/games/?page=${pageNumber}`;
+
+    setLoading(true);
 
     let ajax = new XMLHttpRequest();
     ajax.open("GET", apiUrl);
@@ -46,6 +49,8 @@ function GameList({
       } else {
         setError("Failed fetching games");
       }
+
+      setLoading(false);
     };
 
     ajax.send();
@@ -54,7 +59,8 @@ function GameList({
   return (
     <>
       {error && <p className="text-danger">{error}</p>}
-      {games.length === 0 && <p>No games found</p>}
+      {loading && <div className="spinner-border"></div>}
+      {!loading && games.length === 0 && <p>No games found</p>}
 
       <ul className="list-group">
         {games.map((game, index) => (
