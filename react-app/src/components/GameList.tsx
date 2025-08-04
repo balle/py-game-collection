@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import type { GameType } from "./GameType";
-import apicall from "../services/api-client";
+import gameService, { type GameType } from "../services/game-service";
 
 interface Props {
   games: GameType[];
@@ -26,27 +25,11 @@ function GameList({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // TODO: need new api call for filtering
   useEffect(() => {
-    const apiUrl = `/api/games/?page=${pageNumber}`;
-
     setLoading(true);
+    gameService.getAllGames(updateGames, setError, pageNumber);
 
-    apicall("GET", apiUrl, function () {
-      if (this.status == 200) {
-        const newGames: GameType[] = this.response["results"].map(
-          (game: GameType) => ({
-            id: game.id,
-            name: game.name,
-          })
-        );
-        updateGames(newGames);
-      } else {
-        setError("Failed fetching games");
-      }
-
-      setLoading(false);
-    });
+    setLoading(false);
   }, [pageNumber, selectedGenre, selectedGamesystem]);
 
   return (

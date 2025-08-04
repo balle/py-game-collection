@@ -1,9 +1,9 @@
 import { useState } from "react";
 import GameList from "./components/GameList";
 import Filter from "./components/Filter";
-import type { GameType } from "./components/GameType";
 import "./index.css";
 import { base_url } from "./services/api-client";
+import type { GameType } from "./services/game-service";
 
 function App() {
   const [games, updateGames] = useState<GameType[]>([]);
