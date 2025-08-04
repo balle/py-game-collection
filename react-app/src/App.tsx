@@ -6,8 +6,6 @@ import { base_url } from "./services/api-client";
 import type { GameType } from "./services/game-service";
 
 function App() {
-  const [games, updateGames] = useState<GameType[]>([]);
-  const [pageNumber, setPageNumber] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedGamesystem, setSelectedGamesystem] = useState("");
 
@@ -43,14 +41,6 @@ function App() {
     },
   ];
 
-  const handleSelectPage = (forward: boolean) => {
-    if (forward) {
-      setPageNumber(pageNumber + 1);
-    } else {
-      setPageNumber(pageNumber - 1);
-    }
-  };
-
   // TODO: use react detail view
   const handleSelectedItem = (item: GameType) => {
     location.href = `${base_url}/game/${item.id}`;
@@ -77,13 +67,9 @@ function App() {
       </div>
       <div className="row mt-4">
         <GameList
-          games={games}
-          pageNumber={pageNumber}
           selectedGenre={selectedGenre}
           selectedGamesystem={selectedGamesystem}
           onSelectGame={handleSelectedItem}
-          onPageSelect={handleSelectPage}
-          updateGames={updateGames}
         />
       </div>
     </>

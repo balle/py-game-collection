@@ -3,24 +3,14 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import gameService, { type GameType } from "../services/game-service";
 
 interface Props {
-  games: GameType[];
-  pageNumber: number;
   selectedGenre: string;
   selectedGamesystem: string;
   onSelectGame: (item: GameType) => void;
-  onPageSelect: (forward: boolean) => void;
-  updateGames: (games: GameType[]) => void;
 }
 
-function GameList({
-  games,
-  pageNumber,
-  selectedGenre,
-  selectedGamesystem,
-  onSelectGame,
-  onPageSelect,
-  updateGames,
-}: Props) {
+function GameList({ selectedGenre, selectedGamesystem, onSelectGame }: Props) {
+  const [games, updateGames] = useState<GameType[]>([]);
+  const [pageNumber, setPageNumber] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,10 +47,10 @@ function GameList({
         ))}
       </ul>
       <p>
-        <a onClick={() => onPageSelect(false)}>
+        <a onClick={() => setPageNumber(pageNumber - 1)}>
           <FaArrowAltCircleLeft />
         </a>
-        <a onClick={() => onPageSelect(true)}>
+        <a onClick={() => setPageNumber(pageNumber + 1)}>
           <FaArrowAltCircleRight />
         </a>
       </p>
