@@ -3,6 +3,7 @@ import GameList from "./components/GameList";
 import Filter from "./components/Filter";
 import type { GameType } from "./components/GameType";
 import "./index.css";
+import { base_url } from "./services/api-client";
 
 function App() {
   const [games, updateGames] = useState<GameType[]>([]);
@@ -42,9 +43,6 @@ function App() {
     },
   ];
 
-  let base_url = location.origin;
-  base_url = "http://127.0.0.1:8000";
-
   const handleSelectPage = (forward: boolean) => {
     if (forward) {
       setPageNumber(pageNumber + 1);
@@ -79,7 +77,6 @@ function App() {
       </div>
       <div className="row mt-4">
         <GameList
-          base_url={base_url}
           games={games}
           pageNumber={pageNumber}
           selectedGenre={selectedGenre}

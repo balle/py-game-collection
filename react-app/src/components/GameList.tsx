@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import type { GameType } from "./GameType";
+import apicall from "../services/api-client";
 
 interface Props {
-  base_url: string;
   games: GameType[];
   pageNumber: number;
   selectedGenre: string;
@@ -14,7 +14,6 @@ interface Props {
 }
 
 function GameList({
-  base_url,
   games,
   pageNumber,
   selectedGenre,
@@ -29,16 +28,13 @@ function GameList({
 
   // TODO: need new api call for filtering
   useEffect(() => {
-    const apiUrl = `${base_url}/api/games/?page=${pageNumber}`;
+    const apiUrl = `/api/games/?page=${pageNumber}`;
 
     setLoading(true);
 
-    let ajax = new XMLHttpRequest();
-    ajax.open("GET", apiUrl);
-    ajax.responseType = "json";
-    ajax.timeout = 10000;
-    ajax.onload = function () {
-      if (ajax.status == 200) {
+    let api = apicall("GET", apiUrl);
+    api.onload = function () {
+      if (this.status == 200) {
         const newGames: GameType[] = this.response["results"].map(
           (game: GameType) => ({
             id: game.id,
@@ -53,7 +49,7 @@ function GameList({
       setLoading(false);
     };
 
-    ajax.send();
+    api.send();
   }, [pageNumber, selectedGenre, selectedGamesystem]);
 
   return (
@@ -69,7 +65,7 @@ function GameList({
             className={
               selectedIndex === index
                 ? "list-group-item active"
-                : "list-group-item"
+                : "list-group-item list-group-item-action"
             }
             onClick={() => {
               setSelectedIndex(index);
