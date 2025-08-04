@@ -32,8 +32,7 @@ function GameList({
 
     setLoading(true);
 
-    let api = apicall("GET", apiUrl);
-    api.onload = function () {
+    apicall("GET", apiUrl, function () {
       if (this.status == 200) {
         const newGames: GameType[] = this.response["results"].map(
           (game: GameType) => ({
@@ -47,9 +46,7 @@ function GameList({
       }
 
       setLoading(false);
-    };
-
-    api.send();
+    });
   }, [pageNumber, selectedGenre, selectedGamesystem]);
 
   return (
