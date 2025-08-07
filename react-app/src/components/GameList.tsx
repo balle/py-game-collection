@@ -17,7 +17,10 @@ function GameList({ selectedGenre, selectedGamesystem, onSelectGame }: Props) {
 
   useEffect(() => {
     setLoading(true);
-    gameService.getAllGames(updateGames, setError, pageNumber);
+    gameService.getAllGames(updateGames, setError, pageNumber, {
+      genre: parseInt(selectedGenre),
+      gamesystem: parseInt(selectedGamesystem),
+    });
 
     setLoading(false);
   }, [pageNumber, selectedGenre, selectedGamesystem]);
