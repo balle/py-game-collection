@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import gameService, { type GameType } from "../services/game-service";
+import gameService, { Game } from "../services/game-service";
 
 interface Props {
+  error: string;
+  setError: (msg: string) => void;
   selectedGenre: string;
   selectedGamesystem: string;
-  onSelectGame: (item: GameType) => void;
+  onSelectGame: (item: Game) => void;
 }
 
-function GameList({ selectedGenre, selectedGamesystem, onSelectGame }: Props) {
-  const [games, updateGames] = useState<GameType[]>([]);
+function GameList({
+  error,
+  setError,
+  selectedGenre,
+  selectedGamesystem,
+  onSelectGame,
+}: Props) {
+  const [games, updateGames] = useState<Game[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    gameService.getAllGames(updateGames, setError, pageNumber, {
+    gameService.getGames(updateGames, setError, pageNumber, {
       genre: parseInt(selectedGenre),
       gamesystem: parseInt(selectedGamesystem),
     });

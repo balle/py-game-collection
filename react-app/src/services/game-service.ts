@@ -1,18 +1,74 @@
 import apicall from "./api-client";
 
-type GameType = {
+interface Item {
   id: number;
   name: string;
+}
+
+class Game implements Item {
+    id: number;
+    name: string;
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }
 };
+
+class Gamesystem implements Item {
+    id: number;
+    name: string;
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }};
+
+class Genre implements Item {
+    id: number;
+    name: string;
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }};
 
 type GameFilterType = {
     genre?: number;
     gamesystem?: number;
 }
 
+
 class GameService {
-    // TODO: Need new api call for filtering
-    getAllGames(successFunction: (games: GameType[]) => void, errorFunction: (msg: string) => void, page: number = -1, filter: GameFilterType) {
+    fetch(apiUrl: string, successFunction: (items: Item[]) => void, errorFunction: (msg: string) => void) {
+        apicall("GET", apiUrl, function () {
+        if (this.status == 200) {
+            const newItems: Item[] = this.response["results"].map(
+            (item: Item) => ({
+                id: item.id,
+                name: item.name,
+            })
+            );
+            successFunction(newItems);
+        } else {
+            errorFunction("Failed fetching " + apiUrl);
+        }
+
+    });
+
+    }
+    getGenres(successFunction: (genres: Genre[]) => void, errorFunction: (msg: string) => void) {
+        const apiUrl = "/api/genres/";
+        this.fetch(apiUrl, successFunction, errorFunction);
+    }
+
+    getGamesystems(successFunction: (gamesystems: Gamesystem[]) => void, errorFunction: (msg: string) => void) {
+        const apiUrl = "/api/gamesystems/";
+        this.fetch(apiUrl, successFunction, errorFunction);
+    }
+
+    // TODO: Filter for unplayed and finished
+    getGames(successFunction: (games: Game[]) => void, errorFunction: (msg: string) => void, page: number = -1, filter: GameFilterType) {
         let apiUrl = page === -1 ? "/api/games" : `/api/games/?page=${page}`;
 
         if (filter.gamesystem) {
@@ -23,22 +79,9 @@ class GameService {
             apiUrl += `&genre=${filter.genre}`
         }
 
-        apicall("GET", apiUrl, function () {
-            if (this.status == 200) {
-                const newGames: GameType[] = this.response["results"].map(
-                (game: GameType) => ({
-                    id: game.id,
-                    name: game.name,
-                })
-                );
-                successFunction(newGames);
-            } else {
-                errorFunction("Failed fetching games");
-            }
-
-        });
+        this.fetch(apiUrl, successFunction, errorFunction);
     }
 }
 
 export default new GameService();
-export type {GameType};
+export { Game, Genre, Gamesystem }
