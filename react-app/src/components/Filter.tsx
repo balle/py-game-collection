@@ -5,7 +5,7 @@ export type FilterItem = {
 
 interface Props {
   items: FilterItem[];
-  onSelect: (categoryId: string) => void;
+  onSelect: (id: string) => void;
 }
 
 const Filter = ({ items, onSelect }: Props) => {

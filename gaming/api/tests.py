@@ -17,19 +17,33 @@ class GamingTests(APITestCase):
         self.assertTrue(games['results'][0]['name'] != "")
         self.assertTrue(type(games['results'][0]['tag']) == list)
 
-    def test_filter_games(self):
-        response = self.client.get(reverse('api-game-list'), args={'genre': '34'})
+    def test_filter_games_genre(self):
+        response = self.client.get(reverse('api-game-list') + '?genre=34')
         self.assertEqual(response.status_code, 200)
 
         games = json.loads(response.content)
-        self.assertFalse(list(filter(lambda x: x['genre'] != '34', games['results'])))
+        self.assertFalse(list(filter(lambda x: 34 not in x['genre'], games['results'])))
 
-        response = self.client.get(reverse('api-game-list'), args={'gamesystem': '1'})
+    def test_filter_games_gamesystem(self):
+        response = self.client.get(reverse('api-game-list') + '?gamesystem=1')
         self.assertEqual(response.status_code, 200)
 
         games = json.loads(response.content)
-        self.assertFalse(list(filter(lambda x: x['gamesystem'] != '1', games['results'])))
+        self.assertFalse(list(filter(lambda x: 1 not in x['gamesystems'], games['results'])))
 
+    def test_filter_games_played(self):
+        response = self.client.get(reverse('api-game-list') + '?played= 1')
+        self.assertEqual(response.status_code, 200)
+
+        games = json.loads(response.content)
+        self.assertFalse(list(filter(lambda x: x['played'] == False, games['results'])))
+
+    def test_filter_games_finished(self):
+        response = self.client.get(reverse('api-game-list') + '?finished=1')
+        self.assertEqual(response.status_code, 200)
+
+        games = json.loads(response.content)
+        self.assertFalse(list(filter(lambda x: x['finished'] == False, games['results'])))
 
     def test_get_game_details(self):
         response = self.client.get(reverse('api-game-detail', args=(5,)))

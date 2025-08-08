@@ -14,6 +14,8 @@ class GameListView(generics.ListAPIView):
 
         genre = self.request.query_params.get('genre')
         gamesystem = self.request.query_params.get('gamesystem')
+        played = self.request.query_params.get('played')
+        finished = self.request.query_params.get('finished')
 
         if genre:
             try:
@@ -24,6 +26,18 @@ class GameListView(generics.ListAPIView):
         if gamesystem:
             try:
                 queryset = queryset.filter(gamesystems__id=int(gamesystem))
+            except ValueError:
+                pass
+
+        if played:
+            try:
+                queryset = queryset.filter(played=bool(played))
+            except ValueError:
+                pass
+
+        if finished:
+            try:
+                queryset = queryset.filter(finished=bool(finished))
             except ValueError:
                 pass
 

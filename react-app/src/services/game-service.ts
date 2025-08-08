@@ -36,6 +36,8 @@ class Genre implements Item {
 type GameFilterType = {
     genre?: number;
     gamesystem?: number;
+    played?: boolean;
+    finished?: boolean;
 }
 
 
@@ -67,7 +69,7 @@ class GameService {
         this.fetch(apiUrl, successFunction, errorFunction);
     }
 
-    // TODO: Filter for unplayed and finished
+    // TODO: Search for name
     getGames(successFunction: (games: Game[]) => void, errorFunction: (msg: string) => void, page: number = -1, filter: GameFilterType) {
         let apiUrl = page === -1 ? "/api/games" : `/api/games/?page=${page}`;
 
@@ -77,6 +79,14 @@ class GameService {
 
         if (filter.genre) {
             apiUrl += `&genre=${filter.genre}`
+        }
+
+        if (filter.played) {
+            apiUrl += `&played=1`
+        }
+
+        if (filter.finished) {
+            apiUrl += `&finished=1`
         }
 
         this.fetch(apiUrl, successFunction, errorFunction);

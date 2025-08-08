@@ -7,6 +7,8 @@ interface Props {
   setError: (msg: string) => void;
   selectedGenre: string;
   selectedGamesystem: string;
+  selectedPlayed: boolean;
+  selectedFinished: boolean;
   onSelectGame: (item: Game) => void;
 }
 
@@ -15,6 +17,8 @@ function GameList({
   setError,
   selectedGenre,
   selectedGamesystem,
+  selectedPlayed,
+  selectedFinished,
   onSelectGame,
 }: Props) {
   const [games, updateGames] = useState<Game[]>([]);
@@ -27,10 +31,18 @@ function GameList({
     gameService.getGames(updateGames, setError, pageNumber, {
       genre: parseInt(selectedGenre),
       gamesystem: parseInt(selectedGamesystem),
+      played: selectedPlayed,
+      finished: selectedFinished,
     });
 
     setLoading(false);
-  }, [pageNumber, selectedGenre, selectedGamesystem]);
+  }, [
+    pageNumber,
+    selectedGenre,
+    selectedGamesystem,
+    selectedPlayed,
+    selectedFinished,
+  ]);
 
   return (
     <>
