@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import gameService, { Game } from "../services/game-service";
+import gameService, { type Game } from "../services/game-service";
 
 interface Props {
   error: string;

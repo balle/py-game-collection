@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Filter from "./Filter";
-import gameService, { Gamesystem } from "../services/game-service";
+import gameService, { type Gamesystem } from "../services/game-service";
 
 interface Props {
   setError: (msg: string) => void;

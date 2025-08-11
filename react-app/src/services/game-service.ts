@@ -1,37 +1,8 @@
+import type { Game } from "../interfaces/Game";
+import type { Gamesystem } from "../interfaces/Gamesystem";
+import type { Genre } from "../interfaces/Genre";
+import type { Item } from "../interfaces/Item";
 import apicall from "./api-client";
-
-interface Item {
-  id: number;
-  name: string;
-}
-
-class Game implements Item {
-    id: number;
-    name: string;
-
-    constructor(id: number, name: string) {
-        this.id = id;
-        this.name = name;
-    }
-};
-
-class Gamesystem implements Item {
-    id: number;
-    name: string;
-
-    constructor(id: number, name: string) {
-        this.id = id;
-        this.name = name;
-    }};
-
-class Genre implements Item {
-    id: number;
-    name: string;
-
-    constructor(id: number, name: string) {
-        this.id = id;
-        this.name = name;
-    }};
 
 type GameFilterType = {
     genre?: number;
@@ -94,4 +65,4 @@ class GameService {
 }
 
 export default new GameService();
-export { Game, Genre, Gamesystem }
+export type { Game, Genre, Gamesystem }

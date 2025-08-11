@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import gameService, { Genre } from "../services/game-service";
+import gameService, { type Genre } from "../services/game-service";
 import Filter from "./Filter";
 
 interface Props {
