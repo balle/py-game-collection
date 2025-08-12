@@ -8,7 +8,6 @@ import GamesystemFilter from "./components/GamesystemFilter";
 import Checkbox from "./components/Checkbox";
 
 function App() {
-  const [error, setError] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedGamesystem, setSelectedGamesystem] = useState("");
   const [selectedPlayed, setSelectedPlayed] = useState(false);
@@ -33,18 +32,10 @@ function App() {
         </div>
         <div className="row">
           <div className="col">
-            <GenreFilter
-              setError={setError}
-              selectedGenre={selectedGenre}
-              setSelectedGenre={setSelectedGenre}
-            />
+            <GenreFilter setSelectedGenre={setSelectedGenre} />
           </div>
           <div className="col">
-            <GamesystemFilter
-              setError={setError}
-              selectedGamesystem={selectedGamesystem}
-              setSelectedGamesystem={setSelectedGamesystem}
-            />{" "}
+            <GamesystemFilter setSelectedGamesystem={setSelectedGamesystem} />{" "}
           </div>
           <div className="col">
             <Checkbox onChange={setSelectedPlayed} />
@@ -56,8 +47,6 @@ function App() {
       </div>
       <div className="row mt-4">
         <GameList
-          error={error}
-          setError={setError}
           selectedGenre={selectedGenre}
           selectedGamesystem={selectedGamesystem}
           selectedPlayed={selectedPlayed}

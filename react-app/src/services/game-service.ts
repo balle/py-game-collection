@@ -13,35 +13,35 @@ type GameFilterType = {
 
 
 class GameService {
-    fetch(apiUrl: string, successFunction: (items: Item[]) => void, errorFunction: (msg: string) => void) {
-        apicall("GET", apiUrl, function () {
-        if (this.status == 200) {
-            const newItems: Item[] = this.response["results"].map(
-            (item: Item) => ({
-                id: item.id,
-                name: item.name,
-            })
-            );
-            successFunction(newItems);
-        } else {
-            errorFunction("Failed fetching " + apiUrl);
+    async fetch<T extends Item>(apiUrl: string) {
+        let newItems: T[] = [];
+
+        try {
+            const data = await apicall("GET", apiUrl) 
+
+            newItems = data["results"].map(
+                (item: T) => ({
+                    id: item.id,
+                    name: item.name}));
+        } catch(e) {
+            console.error(`Error fetching url ${apiUrl}: ${e}`)
         }
-
-    });
-
+        
+        return newItems;
     }
-    getGenres(successFunction: (genres: Genre[]) => void, errorFunction: (msg: string) => void) {
+    
+    getGenres(): Promise<Genre[]> {
         const apiUrl = "/api/genres/";
-        this.fetch(apiUrl, successFunction, errorFunction);
+        return this.fetch<Genre>(apiUrl);
     }
 
-    getGamesystems(successFunction: (gamesystems: Gamesystem[]) => void, errorFunction: (msg: string) => void) {
+    getGamesystems(): Promise<Gamesystem[]> {
         const apiUrl = "/api/gamesystems/";
-        this.fetch(apiUrl, successFunction, errorFunction);
+        return this.fetch<Gamesystem>(apiUrl);
     }
 
     // TODO: Search for name
-    getGames(successFunction: (games: Game[]) => void, errorFunction: (msg: string) => void, page: number = -1, filter: GameFilterType) {
+    getGames(page: number = -1, filter: GameFilterType): Promise<Game[]> {
         let apiUrl = page === -1 ? "/api/games" : `/api/games/?page=${page}`;
 
         if (filter.gamesystem) {
@@ -60,7 +60,7 @@ class GameService {
             apiUrl += `&finished=1`
         }
 
-        this.fetch(apiUrl, successFunction, errorFunction);
+        return this.fetch<Game>(apiUrl);
     }
 }
 

@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import gameService, { type Game } from "../services/game-service";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
-  error: string;
-  setError: (msg: string) => void;
   selectedGenre: string;
   selectedGamesystem: string;
   selectedPlayed: boolean;
@@ -13,45 +12,41 @@ interface Props {
 }
 
 function GameList({
-  error,
-  setError,
   selectedGenre,
   selectedGamesystem,
   selectedPlayed,
   selectedFinished,
   onSelectGame,
 }: Props) {
-  const [games, updateGames] = useState<Game[]>([]);
+  // const [games, updateGames] = useState<Game[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    gameService.getGames(updateGames, setError, pageNumber, {
-      genre: parseInt(selectedGenre),
-      gamesystem: parseInt(selectedGamesystem),
-      played: selectedPlayed,
-      finished: selectedFinished,
-    });
+  const { data: games, error } = useQuery<Game[], Error>({
+    queryKey: ["games"],
+    queryFn: () => {
+      setLoading(true);
+      const data = gameService.getGames(pageNumber, {
+        genre: parseInt(selectedGenre),
+        gamesystem: parseInt(selectedGamesystem),
+        played: selectedPlayed,
+        finished: selectedFinished,
+      });
 
-    setLoading(false);
-  }, [
-    pageNumber,
-    selectedGenre,
-    selectedGamesystem,
-    selectedPlayed,
-    selectedFinished,
-  ]);
+      setLoading(false);
+      return data;
+    },
+  });
 
   return (
     <>
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p className="text-danger">{error.message}</p>}
       {loading && <div className="spinner-border"></div>}
-      {!loading && games.length === 0 && <p>No games found</p>}
+      {!loading && games?.length === 0 && <p>No games found</p>}
 
       <ul className="list-group">
-        {games.map((game, index) => (
+        {games?.map((game, index) => (
           <li
             key={game.id}
             className={
