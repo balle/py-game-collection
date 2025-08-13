@@ -18,32 +18,38 @@ function GameList({
   selectedFinished,
   onSelectGame,
 }: Props) {
-  // const [games, updateGames] = useState<Game[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [loading, setLoading] = useState(false);
 
-  const { data: games, error } = useQuery<Game[], Error>({
-    queryKey: ["games"],
+  const {
+    data: games,
+    error,
+    isLoading,
+  } = useQuery<Game[], Error>({
+    queryKey: [
+      selectedGamesystem,
+      selectedGenre,
+      selectedPlayed,
+      selectedFinished,
+      "games",
+    ],
     queryFn: () => {
-      setLoading(true);
-      const data = gameService.getGames(pageNumber, {
+      return gameService.getGames(pageNumber, {
         genre: parseInt(selectedGenre),
         gamesystem: parseInt(selectedGamesystem),
         played: selectedPlayed,
         finished: selectedFinished,
       });
-
-      setLoading(false);
-      return data;
     },
+    staleTime: 60_000, // 1 minute
+    refetchInterval: 60_000, // 1 minute
   });
 
   return (
     <>
       {error && <p className="text-danger">{error.message}</p>}
-      {loading && <div className="spinner-border"></div>}
-      {!loading && games?.length === 0 && <p>No games found</p>}
+      {isLoading && <div className="spinner-border"></div>}
+      {!isLoading && games?.length === 0 && <p>No games found</p>}
 
       <ul className="list-group">
         {games?.map((game, index) => (
