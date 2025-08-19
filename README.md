@@ -5,7 +5,8 @@ Python / Django app to manage my videogame collection.
 ## Installation
 
 ```
-pip3 install -r requirements.txt
+poetry install
+poetry shell
 python3 manage.py migrate
 python3 manage.py createsuperuser
 python3 manage.py runserver
