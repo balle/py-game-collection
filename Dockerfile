@@ -1,18 +1,23 @@
-FROM python:slim-trixie
+FROM python:alpine
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-COPY . /code/
-WORKDIR /code
-RUN apt update
-RUN apt upgrade -y
-RUN apt install -y python3-poetry
-RUN poetry install
+RUN apk update
+RUN apk upgrade
+RUN apk add poetry
 
-RUN mkdir /code/static
+RUN mkdir -p /code/static
 RUN mkdir /data
 VOLUME /data
 
+RUN addgroup app
+RUN adduser -S -G app app
+USER app
+
+COPY . /code/
+WORKDIR /code
+
+RUN poetry install
 RUN python -c "print(open('/code/py_game_collection/settings.py').read().replace('db.sqlite3','/data/db.sqlite3'), file=open('/code/py_game_collection/settings.py', 'w'))"
 RUN poetry run python manage.py migrate
 
