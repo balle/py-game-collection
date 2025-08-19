@@ -1,4 +1,5 @@
 # py-game-collection
+
 Python / Django app to manage my videogame collection.
 
 ## Installation
@@ -19,7 +20,7 @@ Or deploy it on the WSGI server of your choice.
 ```
 docker build -t py-game-collection .
 docker run --name my-game-collection -p 8000:8000 -d py-game-collection
-docker exec -it my-game-collection python manage.py createsuperuser
+docker exec -it my-game-collection poetry run python manage.py createsuperuser
 ```
 
 ## Import data
